@@ -1,6 +1,6 @@
-## Day 1: Complete Arrays problems:
+Day 1: Complete Arrays problems:
 
-**1. Two Sum:**
+1. Two Sum:
 
 Code: 
 class Solution {
@@ -45,7 +45,7 @@ Space Complexity: O(n)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-**2. Contains Duplicate:** 
+2. Contains Duplicate:
 
 Optimal Code:
 class Solution {
@@ -72,7 +72,7 @@ Space Complexity: O(n)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-**3. Best Time to Buy/Sell Stock:**
+3. Best Time to Buy/Sell Stock:
 
 code:
 class Solution {
