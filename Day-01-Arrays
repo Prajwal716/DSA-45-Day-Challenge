@@ -1,0 +1,135 @@
+Day 1: Complete Arrays problems:
+
+1. Two Sum:
+
+Code: 
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+       
+       for(int i=0 ; i<nums.length ; i++){
+            for(int j=i+1 ; j<nums.length ; j++){
+                if(nums[i]+nums[j] == target){
+                    return new int[]{i, j}; 
+                }
+            }
+        }
+        return new int[]{-1, -1}; 
+    }
+}
+
+Time Complexity: O(n2)
+Space Complexity: O(1)
+
+Optimal Code:
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> hm = new HashMap<>();
+        for(int i=0;i<nums.length;i++){
+            int res = target - nums[i];
+            if(hm.containsKey(res)){
+                return new int[]{hm.get(res),i};
+            }
+            hm.put(nums[i],i);
+        }
+        return new int[]{};
+    }
+}
+
+Approach:
+Use a HashMap to store previously visited numbers
+and their indices. For every element, check whether
+its complement already exists.
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. Contains Duplicate: 
+
+Optimal Code:
+class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            if (set.contains(nums[i])) {
+                return true;
+            }
+
+            set.add(nums[i]);
+        }
+
+        return false;
+    }
+}
+
+Approach:
+Use a HashSet to store previously visited numbers. For every element, check whether the number already exists in the set. If it exists, a duplicate is found.
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. Best Time to Buy/Sell Stock:
+
+code:
+class Solution {
+    public int maxProfit(int[] prices) {
+        int minPrice = prices[0];
+        int maxProfit = 0;
+
+        for (int i = 1; i < prices.length; i++) {
+
+            // Find the lowest buying price
+            if (prices[i] < minPrice) {
+                minPrice = prices[i];
+            }
+
+            // Calculate today's profit
+            int profit = prices[i] - minPrice;
+
+            // Update maximum profit
+            if (profit > maxProfit) {
+                maxProfit = profit;
+            }
+        }
+
+        return maxProfit;
+    }
+}
+ 
+Approach:
+Keep track of the lowest buying price seen so far using minPrice. For every day, calculate the profit by selling at today's price (prices[i] - minPrice). Update maxProfit if today's profit is greater. This ensures we always buy at the lowest price before selling.
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+Optimal code:
+class Solution {
+    public int maxProfit(int[] prices) {
+       int min = prices[0];
+       int max_profit=0;
+       for(int i=0;i<prices.length;i++)
+       {
+        if(prices[i]<min){
+        min=prices[i];
+       }
+       else
+       {
+        int profit=prices[i]-min;
+           if(profit>max_profit){
+            max_profit=profit;
+           }
+       }
+    }
+    return max_profit;
+    }  
+}   
+
+Approach:
+Keep track of the lowest price seen so far using min. For each price, if it is lower than min, update min. Otherwise, calculate the profit by selling at the current price and update max_profit if the profit is higher. Finally, return the maximum profit found.
+
+Time Complexity: O(n)
+Space Complexity: O(1).
