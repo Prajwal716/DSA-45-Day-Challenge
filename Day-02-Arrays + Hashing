@@ -1,0 +1,242 @@
+1. Valid Anagram
+
+Code:
+if (s.length() != t.length()) {
+            return false;
+        }
+
+        int[] count = new int[26];
+
+        for (int i = 0; i < s.length(); i++) {
+            count[s.charAt(i) - 'a']++;
+            count[t.charAt(i) - 'a']--;
+        }
+
+        for (int i = 0; i < 26; i++) {
+            if (count[i] != 0) {
+                return false;
+            }
+        }
+
+        return true;
+   }
+}
+
+Approach:
+First, check if both strings have the same length. If not, return false. Use an integer array of size 26 to store the frequency difference of each character. Increment the count for characters in s and decrement it for characters in t. Finally, check the count array. If any value is not 0, the strings are not anagrams; otherwise, return true.
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+Optimal Code:
+int[] ch = new int[256];
+        if (s.length() != t.length()) {
+            return false;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            ch[s.charAt(i)]++;
+        }
+        for (int i = 0; i < t.length(); i++) {
+            ch[t.charAt(i)]--;
+        }
+        for (int i = 0; i <256; i++) {
+            if (ch[i] != 0) {
+                return false;
+            }
+        }
+        return true;
+  }
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. Group Anagrams
+
+Code:
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String, List<String>> map = new HashMap<>();
+
+        for (String str : strs) {
+
+            int[] count = new int[26];
+
+            // Count characters
+            for (char c : str.toCharArray()) {
+                count[c - 'a']++;
+            }
+
+            // Convert frequency array into a String key
+            String key = Arrays.toString(count);
+
+            // Add string to its anagram group
+            if (!map.containsKey(key)) {
+                map.put(key, new ArrayList<>());
+            }
+
+            map.get(key).add(str);
+        }
+
+        return new ArrayList<>(map.values());
+    }
+}
+
+Approach:
+Use a HashMap where the key represents the character frequency of each string. For every string, count the occurrences of each character using an array of size 26 and convert this array into a string key. Anagrams will have the same frequency key, so group them together in the HashMap.
+
+Time Complexity: O(n × k)
+Space Complexity: O(n × k)
+
+Where:
+
+n = number of strings
+k = maximum length of a string
+
+Optimal Code 1:
+
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String,List<String>>mp=new HashMap<>();
+        for(String s:strs)
+        {
+          char[] ch=s.toCharArray();
+          Arrays.sort(ch);
+          String key=new String(ch);
+          while(!mp.containsKey(key))
+          {
+            mp.put(key,new ArrayList<>());
+          }
+          mp.get(key).add(s);
+        }
+        return new ArrayList<>(mp.values());
+
+        
+    }
+}
+
+Approach:
+Use a HashMap where the key represents the sorted characters of each string. For every string, convert it into a character array and sort it. Anagrams will produce the same sorted string, so use it as the key and add the original string to its corresponding group.
+
+Time Complexity: O(n × k log k)
+Space Complexity: O(n × k)
+
+Optimal Code 2:
+
+import java.util.*;
+
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+
+        HashMap<String, List<String>> map = new HashMap<>();
+
+        for (String s : strs) {
+
+            char[] arr = s.toCharArray();
+
+            Arrays.sort(arr);
+
+            String key = new String(arr);
+
+            if (!map.containsKey(key)) {
+                map.put(key, new ArrayList<>());
+            }
+
+            map.get(key).add(s);
+        }
+
+        return new ArrayList<>(map.values());
+    }
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. Top K Frequent Elements
+
+Code:
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+
+        // 1. Count frequency
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        // 2. Create buckets
+        List<Integer>[] buckets = new ArrayList[nums.length + 1];
+
+        for (int num : map.keySet()) {
+
+            int frequency = map.get(num);
+
+            if (buckets[frequency] == null) {
+                buckets[frequency] = new ArrayList<>();
+            }
+
+            buckets[frequency].add(num);
+        }
+
+        // 3. Get top k frequent elements
+        int[] result = new int[k];
+        int index = 0;
+
+        for (int frequency = buckets.length - 1;
+             frequency >= 0 && index < k;
+             frequency--) {
+
+            if (buckets[frequency] != null) {
+                for (int num : buckets[frequency]) {
+                    result[index] = num;
+                    index++;
+
+                    if (index == k) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+}
+
+Approach:
+Use a HashMap to count the frequency of each number. Then create frequency buckets where the index represents the frequency of an element. Place each number into its corresponding bucket. Finally, traverse the buckets from the highest frequency to the lowest and add elements to the result until k elements are collected.
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+Optimal Code 1:
+
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int num : nums){
+            map.put(num, map.getOrDefault(num, 0)+1);
+        }
+        PriorityQueue<Integer> queue = new PriorityQueue<>((a,b)->map.get(a)-map.get(b));
+        for(int key : map.keySet()){
+            queue.offer(key);
+            if(queue.size()>k) queue.poll();
+        }
+        int[] ans = new int[k];
+        for(int i=k-1;i>=0;i--){
+            ans[i] = queue.poll();
+        }
+        return ans;
+   }
+}
+
+Approach:
+Use a HashMap to count the frequency of each number. Then use a Min-Heap (PriorityQueue) to keep track of the k most frequent elements. Add each number to the heap, and if the heap size exceeds k, remove the least frequent element. Finally, extract the remaining k elements into the result array.
+
+Time Complexity: O(n log k)
+Space Complexity: O(n + k)
+
+Where:
+
+n = number of elements in nums
+k = number of most frequent elements required.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
