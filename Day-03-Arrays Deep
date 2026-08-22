@@ -1,0 +1,79 @@
+1. Find Pivot Index
+
+Code:
+class Solution {
+    public int pivotIndex(int[] nums) {
+        
+        int totalSum = 0;
+
+        for (int num : nums) {
+            totalSum += num;
+        }
+
+        int leftSum = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+
+            int rightSum = totalSum - leftSum - nums[i];
+
+            if (leftSum == rightSum) {
+                return i;
+            }
+
+            leftSum += nums[i];
+        }
+
+        return -1;
+    }
+}
+
+Approach:
+Calculate the total sum of the array first. Then traverse the array while maintaining the leftSum. For each index, calculate rightSum = totalSum - leftSum - nums[i] and check whether leftSum == rightSum.
+
+Complexity
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. Longest Consecutive Sequence:
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+
+        // Store all elements
+        for (int num : nums) {
+            set.add(num);
+        }
+
+        int longest = 0;
+
+        // Check every number
+        for (int num : set) {
+
+            // Start only if num is the beginning
+            if (!set.contains(num - 1)) {
+
+                int current = num;
+                int length = 1;
+
+                // Find consecutive numbers
+                while (set.contains(current + 1)) {
+                    current++;
+                    length++;
+                }
+
+                longest = Math.max(longest, length);
+            }
+        }
+
+        return longest;
+    }
+}
+
+Approach:
+Store all elements in a HashSet for O(1) average lookup. For each number, start counting only if it is the beginning of a sequence (num - 1 is not present), then check consecutive numbers and track the longest sequence.
+
+Complexity
+Time Complexity: O(n) — each number is processed a constant number of times on average.
+Space Complexity: O(n) — HashSet stores all elements.
