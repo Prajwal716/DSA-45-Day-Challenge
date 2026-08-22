@@ -188,3 +188,78 @@ characters, and move to the next encoded string.
 Complexity
 Time Complexity: O(n) — where n is the total number of characters in all strings.
 Space Complexity: O(n) — for the encoded string and decoded list.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. Trapping Rain Water(Hard):
+
+Code:
+
+class Solution {
+    public int trap(int[] height) {
+        int left = 0;
+        int right = height.length - 1;
+
+        int leftMax = 0;
+        int rightMax = 0;
+
+        int water = 0;
+
+        while (left < right) {
+
+            if (height[left] <= height[right]) {
+
+                if (height[left] >= leftMax) {
+                    leftMax = height[left];
+                } else {
+                    water += leftMax - height[left];
+                }
+
+                left++;
+
+            } else {
+
+                if (height[right] >= rightMax) {
+                    rightMax = height[right];
+                } else {
+                    water += rightMax - height[right];
+                }
+
+                right--;
+            }
+        }
+
+        return water;
+    }
+}
+
+Approach:
+Use the two-pointer technique with leftMax and rightMax to track the maximum heights from both sides. Process the side with the smaller height,
+calculate trapped water using the corresponding maximum, and move the pointer inward.
+
+Complexity:
+Time Complexity: O(n) — each element is visited at most once.
+Space Complexity: O(1) — only a few variables are used.
+
+Optimal Code:
+
+class Solution {
+    public int trap(int[] height) {
+        int left = 0, right = height.length - 1;
+        int maxLeft = 0, maxRight = 0;
+        int totalWater = 0;
+        while(left < right){
+            if(height[left] <= height[right]){
+                if(height[left] >= maxLeft) maxLeft = height[left];
+                    else totalWater += maxLeft - height[left];
+                left ++;
+            }   else {
+                if(height[right] >= maxRight) maxRight = height[right];
+                    else totalWater += maxRight - height[right];
+                right--;
+            }
+        }
+        return totalWater;
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
