@@ -1,4 +1,4 @@
-1. Find Pivot Index
+1. Find Pivot Index:
 
 Code:
 class Solution {
@@ -28,7 +28,8 @@ class Solution {
 }
 
 Approach:
-Calculate the total sum of the array first. Then traverse the array while maintaining the leftSum. For each index, calculate rightSum = totalSum - leftSum - nums[i] and check whether leftSum == rightSum.
+Calculate the total sum of the array first. Then traverse the array while maintaining the leftSum. For each index,
+calculate rightSum = totalSum - leftSum - nums[i] and check whether leftSum == rightSum.
 
 Complexity
 Time Complexity: O(n)
@@ -37,6 +38,8 @@ Space Complexity: O(1)
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 2. Longest Consecutive Sequence:
+
+Code:
 class Solution {
     public int longestConsecutive(int[] nums) {
         HashSet<Integer> set = new HashSet<>();
@@ -72,7 +75,9 @@ class Solution {
 }
 
 Approach:
-Store all elements in a HashSet for O(1) average lookup. For each number, start counting only if it is the beginning of a sequence (num - 1 is not present), then check consecutive numbers and track the longest sequence.
+Store all elements in a HashSet for O(1) average lookup. For each number,
+start counting only if it is the beginning of a sequence (num - 1 is not present),
+then check consecutive numbers and track the longest sequence.
 
 Complexity
 Time Complexity: O(n) — each number is processed a constant number of times on average.
@@ -119,3 +124,67 @@ class Solution {
     }
 }
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. Encode and Decode Strings:
+
+Code:
+import java.util.*;
+
+public class Codec {
+
+    // Encodes a list of strings to a single string.
+    public String encode(List<String> strs) {
+
+        StringBuilder encoded = new StringBuilder();
+
+        for (String str : strs) {
+            encoded.append(str.length())
+                   .append("#")
+                   .append(str);
+        }
+
+        return encoded.toString();
+    }
+
+    // Decodes a single string to a list of strings.
+    public List<String> decode(String s) {
+
+        List<String> result = new ArrayList<>();
+
+        int i = 0;
+
+        while (i < s.length()) {
+
+            // Find the '#' separating length and string
+            int j = i;
+
+            while (s.charAt(j) != '#') {
+                j++;
+            }
+
+            // Extract length
+            int length = Integer.parseInt(s.substring(i, j));
+
+            // Start of actual string
+            int start = j + 1;
+
+            // Extract string using its length
+            String str = s.substring(start, start + length);
+
+            result.add(str);
+
+            // Move to next encoded string
+            i = start + length;
+        }
+
+        return result;
+    }
+}
+
+Approach:
+Encode each string as length#string, allowing strings to contain any characters safely. During decoding, read the length before #, extract exactly that many
+characters, and move to the next encoded string.
+
+Complexity
+Time Complexity: O(n) — where n is the total number of characters in all strings.
+Space Complexity: O(n) — for the encoded string and decoded list.
