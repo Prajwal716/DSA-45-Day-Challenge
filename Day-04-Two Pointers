@@ -72,3 +72,69 @@ Time: O(n) — each pointer moves at most n times.
 Space: O(1) — only two pointer variables are used.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. 3Sum:
+
+Code:
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        
+        List<List<Integer>> result = new ArrayList<>();
+
+        Arrays.sort(nums);
+
+        for (int i = 0; i < nums.length - 2; i++) {
+
+            // Skip duplicate values for i
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+
+            int left = i + 1;
+            int right = nums.length - 1;
+
+            while (left < right) {
+
+                int sum = nums[i] + nums[left] + nums[right];
+
+                if (sum == 0) {
+
+                    result.add(Arrays.asList(
+                        nums[i],
+                        nums[left],
+                        nums[right]
+                    ));
+
+                    // Skip duplicate left values
+                    while (left < right && nums[left] == nums[left + 1]) {
+                        left++;
+                    }
+
+                    // Skip duplicate right values
+                    while (left < right && nums[right] == nums[right - 1]) {
+                        right--;
+                    }
+
+                    left++;
+                    right--;
+
+                } else if (sum < 0) {
+                    left++;
+
+                } else {
+                    right--;
+                }
+            }
+        }
+
+        return result;
+    }
+}
+
+Approach:
+First sort the array, then fix one element i and use the two-pointer technique (left, right) to find the other two elements whose sum makes the total 0. Skip duplicate values to ensure unique triplets.
+
+Complexity:
+Time: O(n²) — sorting takes O(n log n), and the nested two-pointer search takes O(n²).
+Space: O(1) auxiliary space (excluding the output list).
