@@ -35,3 +35,58 @@ Use the two-pointer technique with pointers at both ends. Calculate the area usi
 Complexity:
 Time: O(n) — each pointer moves toward the other at most once.
 Space: O(1) — only a few variables are used.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. Trapping Rain Water:
+
+Code:
+class Solution {
+    public int trap(int[] height) {
+        int left = 0;
+        int right = height.length - 1;
+
+        int leftMax = 0;
+        int rightMax = 0;
+
+        int water = 0;
+
+        while (left < right) {
+
+            if (height[left] <= height[right]) {
+
+                if (height[left] >= leftMax) {
+                    leftMax = height[left];
+                } else {
+                    water += leftMax - height[left];
+                }
+
+                left++;
+
+            } else {
+
+                if (height[right] >= rightMax) {
+                    rightMax = height[right];
+                } else {
+                    water += rightMax - height[right];
+                }
+
+                right--;
+            }
+        }
+
+        return water;
+    }
+}
+
+Approach
+
+Use the two-pointer technique while maintaining leftMax and rightMax, the maximum heights seen from both sides. Process the side with the smaller height because the trapped water there is determined by that side's maximum boundary.
+
+Complexity
+Time: O(n) — each element is processed at most once.
+Space: O(1) — only pointers and maximum-height variables are used.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3.
