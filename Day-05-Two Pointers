@@ -1,0 +1,37 @@
+1. Containers With Most Water:
+
+Code:
+class Solution {
+    public int maxArea(int[] height) {
+        int left = 0;
+        int right = height.length - 1;
+
+        int maxWater = 0;
+
+        while (left < right) {
+
+            int width = right - left;
+            int currentHeight = Math.min(height[left], height[right]);
+
+            int currentArea = width * currentHeight;
+
+            maxWater = Math.max(maxWater, currentArea);
+
+            // Move the pointer with the smaller height
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        return maxWater;
+    }
+}
+
+Approach:
+Use the two-pointer technique with pointers at both ends. Calculate the area using the smaller height, update the maximum area, then move the pointer with the smaller height inward to potentially find a larger area.
+
+Complexity:
+Time: O(n) — each pointer moves toward the other at most once.
+Space: O(1) — only a few variables are used.
