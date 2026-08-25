@@ -34,4 +34,70 @@ Space: O(1) — only constant extra variables are used.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-2.
+2. Longest Substring w/o repeating substring:
+
+Code:
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        HashSet<Character> set = new HashSet<>();
+
+        int left = 0;
+        int maxLength = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+
+            // Duplicate found
+            while (set.contains(s.charAt(right))) {
+                set.remove(s.charAt(left));
+                left++;
+            }
+
+            // Add current character
+            set.add(s.charAt(right));
+
+            // Calculate current window length
+            int length = right - left + 1;
+
+            // Update maximum length
+            if (length > maxLength) {
+                maxLength = length;
+            }
+        }
+
+        return maxLength;
+    }
+}
+
+Approach:
+Use the sliding window technique with a HashSet to maintain unique characters in the current window. Expand right; when a duplicate is found, move left forward and remove characters until the window contains only unique characters.
+
+Complexity:
+Time: O(n) — each character is added and removed from the set at most once.
+Space: O(min(n, charset)) — the HashSet stores characters in the current window.
+
+Optimal Code:
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int[] lastIndex = new int[128];
+        int left = 0;
+        int len = 0;
+        for (int right = 0; right < s.length(); right++) {
+            char ch = s.charAt(right);
+            if (lastIndex[ch] > left) {
+                left = lastIndex[ch];
+            }
+            len = Math.max(len, right - left + 1);
+            lastIndex[ch] = right + 1;
+        }
+        return len;
+    }
+}
+
+Approach:
+Use a sliding window with a last-index array to track the most recent position of each character. When a duplicate appears inside the current window, move left directly to the character's next position instead of removing characters one by one.
+
+Complexity:
+Time: O(n) — each character is processed once.
+Space: O(1) — the array has a fixed size of 128 characters.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
