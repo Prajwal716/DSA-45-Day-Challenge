@@ -178,3 +178,5 @@ Use the sliding window technique with a frequency array to track character count
 Complexity:
 Time: O(n) — each character is processed at most twice (added and removed).
 Space: O(1) — the frequency array has a fixed size of 26.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
