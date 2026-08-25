@@ -1,0 +1,37 @@
+1. Best Time To Buy and Sell Stocks:
+
+Code:
+class Solution {
+    public int maxProfit(int[] prices) {
+  
+        int left = 0;
+        int right = 1;
+
+        int maxProfit = 0;
+
+        while (right < prices.length) {
+
+            if (prices[right] > prices[left]) {
+                int profit = prices[right] - prices[left];
+                maxProfit = Math.max(maxProfit, profit);
+            } else {
+                left = right;
+            }
+
+            right++;
+        }
+
+        return maxProfit;
+    }
+}
+
+Approach:
+Use a sliding-window approach where left represents the best (lowest) buying price and right scans each day as the selling price. If a lower price is found, update left; otherwise, calculate and track the maximum profit.
+
+Complexity:
+Time: O(n) — the array is traversed once.
+Space: O(1) — only constant extra variables are used.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2.
